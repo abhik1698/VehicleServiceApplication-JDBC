@@ -1,4 +1,7 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -6,18 +9,34 @@ import javax.swing.table.DefaultTableModel;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Abhi
  */
 public class Service_log extends javax.swing.JFrame {
 
+    private Connection c;
+    private static final String username = "root";
+    private static final String password = "root";
+    private static final String schemaPath = "jdbc:mysql://localhost:3306/bike_service";
+
     /**
      * Creates new form Service_log
      */
     public Service_log() {
         initComponents();
+        addedLabel.setVisible(false);
+        c = null;
+
+        try {
+
+            c = DriverManager.getConnection(schemaPath, username, password);
+            System.out.println("connected");
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
     }
 
     /**
@@ -28,30 +47,36 @@ public class Service_log extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
+        serviceLogPanel = new javax.swing.JPanel();
         vehicleDeliveryTab = new javax.swing.JTabbedPane();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         vmTable = new javax.swing.JTable();
         AddVehicleButton = new javax.swing.JButton();
+        addedLabel = new javax.swing.JLabel();
         jLayeredPane2 = new javax.swing.JLayeredPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         rsTable = new javax.swing.JTable();
-        updateServiceButton = new javax.swing.JButton();
+        placeOrderButton = new javax.swing.JButton();
+        orderPlacedLabel = new javax.swing.JLabel();
         jLayeredPane3 = new javax.swing.JLayeredPane();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        qTable = new javax.swing.JTable();
         updateQuotationButton = new javax.swing.JButton();
+        updateQuotationLabel = new javax.swing.JLabel();
         jLayeredPane4 = new javax.swing.JLayeredPane();
         jLabel1 = new javax.swing.JLabel();
         searchVehicleText = new javax.swing.JTextField();
         searchVehicleButton = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         deliveryView = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        signOut = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -68,6 +93,12 @@ public class Service_log extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("Service Vendor Application"), this, org.jdesktop.beansbinding.BeanProperty.create("title"));
+        bindingGroup.addBinding(binding);
+
+        serviceLogPanel.setLayout(new java.awt.BorderLayout());
+
+        vmTable.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         vmTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null}
@@ -77,14 +108,17 @@ public class Service_log extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        vmTable.setColumnSelectionAllowed(true);
+        vmTable.setInheritsPopupMenu(true);
         jScrollPane1.setViewportView(vmTable);
+        vmTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         AddVehicleButton.setText("Add Vehicle");
         AddVehicleButton.addActionListener(new java.awt.event.ActionListener() {
@@ -93,15 +127,21 @@ public class Service_log extends javax.swing.JFrame {
             }
         });
 
+        addedLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        addedLabel.setForeground(new java.awt.Color(11, 191, 23));
+        addedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        addedLabel.setText("---");
+
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addGap(151, 151, 151)
                 .addComponent(AddVehicleButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
+            .addComponent(addedLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,13 +149,17 @@ public class Service_log extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
                 .addComponent(AddVehicleButton)
-                .addGap(0, 348, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(addedLabel)
+                .addGap(0, 171, Short.MAX_VALUE))
         );
         jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(AddVehicleButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(addedLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane2.addTab("Vehicle Model", jLayeredPane1);
 
+        rsTable.setBorder(new javax.swing.border.MatteBorder(null));
         rsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null}
@@ -132,97 +176,102 @@ public class Service_log extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        rsTable.setColumnSelectionAllowed(true);
         jScrollPane3.setViewportView(rsTable);
 
-        updateServiceButton.setText("Update");
-        updateServiceButton.addActionListener(new java.awt.event.ActionListener() {
+        placeOrderButton.setText("Place ORDER");
+        placeOrderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateServiceButtonActionPerformed(evt);
+                placeOrderButtonActionPerformed(evt);
             }
         });
+
+        orderPlacedLabel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        orderPlacedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        orderPlacedLabel.setText("---");
 
         javax.swing.GroupLayout jLayeredPane2Layout = new javax.swing.GroupLayout(jLayeredPane2);
         jLayeredPane2.setLayout(jLayeredPane2Layout);
         jLayeredPane2Layout.setHorizontalGroup(
             jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
             .addGroup(jLayeredPane2Layout.createSequentialGroup()
                 .addGap(155, 155, 155)
-                .addComponent(updateServiceButton)
+                .addComponent(placeOrderButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(orderPlacedLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jLayeredPane2Layout.setVerticalGroup(
             jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane2Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
-                .addComponent(updateServiceButton)
-                .addGap(0, 367, Short.MAX_VALUE))
+                .addComponent(placeOrderButton)
+                .addGap(18, 18, 18)
+                .addComponent(orderPlacedLabel)
+                .addGap(0, 189, Short.MAX_VALUE))
         );
         jLayeredPane2.setLayer(jScrollPane3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane2.setLayer(updateServiceButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(placeOrderButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(orderPlacedLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane2.addTab("Required Service", jLayeredPane2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        qTable.setBorder(new javax.swing.border.MatteBorder(null));
+        qTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
                 {null, null, null}
             },
             new String [] {
-                "Reg No", "Cost", "for"
+                "Reg No", "cost", "for"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable1);
+        qTable.setColumnSelectionAllowed(true);
+        jScrollPane4.setViewportView(qTable);
 
-        updateQuotationButton.setText("Update");
+        updateQuotationButton.setText("Update Quotation");
+        updateQuotationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateQuotationButtonActionPerformed(evt);
+            }
+        });
+
+        updateQuotationLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        updateQuotationLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        updateQuotationLabel.setText("---");
 
         javax.swing.GroupLayout jLayeredPane3Layout = new javax.swing.GroupLayout(jLayeredPane3);
         jLayeredPane3.setLayout(jLayeredPane3Layout);
         jLayeredPane3Layout.setHorizontalGroup(
             jLayeredPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
-            .addGroup(jLayeredPane3Layout.createSequentialGroup()
-                .addGap(173, 173, 173)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+            .addComponent(updateQuotationLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(updateQuotationButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(147, 147, 147))
         );
         jLayeredPane3Layout.setVerticalGroup(
             jLayeredPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane3Layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(updateQuotationButton)
-                .addGap(0, 145, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(updateQuotationLabel)
+                .addGap(0, 149, Short.MAX_VALUE))
         );
         jLayeredPane3.setLayer(jScrollPane4, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane3.setLayer(updateQuotationButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane3.setLayer(updateQuotationLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane2.addTab("Quotation", jLayeredPane3);
 
@@ -258,7 +307,7 @@ public class Service_log extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane4Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(searchVehicleButton)
                     .addComponent(searchVehicleText, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -276,7 +325,7 @@ public class Service_log extends javax.swing.JFrame {
                 .addComponent(searchVehicleButton)
                 .addGap(65, 65, 65)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
         jLayeredPane4.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane4.setLayer(searchVehicleText, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -285,46 +334,163 @@ public class Service_log extends javax.swing.JFrame {
 
         vehicleDeliveryTab.addTab("Delivery", jLayeredPane4);
 
+        signOut.setBackground(new java.awt.Color(0, 0, 0));
+        signOut.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
+        signOut.setForeground(new java.awt.Color(255, 255, 255));
+        signOut.setText("Sign out");
+        signOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signOutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(vehicleDeliveryTab))
+                .addGap(152, 152, 152)
+                .addComponent(signOut)
+                .addContainerGap(168, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(vehicleDeliveryTab))
+                .addGap(136, 136, 136)
+                .addComponent(signOut)
+                .addContainerGap(266, Short.MAX_VALUE))
         );
+
+        vehicleDeliveryTab.addTab("Sign out", jPanel1);
+
+        serviceLogPanel.add(vehicleDeliveryTab, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(serviceLogPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(serviceLogPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void updateServiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateServiceButtonActionPerformed
+    private void placeOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonActionPerformed
         // TODO add your handling code here:
-        
-        
-    }//GEN-LAST:event_updateServiceButtonActionPerformed
+        DefaultTableModel model = (DefaultTableModel) rsTable.getModel();
+
+        try {
+            String customer_name = model.getValueAt(0, 0).toString();
+            String bike_name = model.getValueAt(0, 1).toString();
+            String reg_no = model.getValueAt(0, 2).toString();
+            String repair_category = model.getValueAt(0, 3).toString();
+            String initial_state = model.getValueAt(0, 4).toString();
+//
+//            String query = "insert into service(customer_name, bike_name, registration_no, repair_category, initial_state) values(?, ?, ?, ?, ?)";
+//            PreparedStatement preparedStmt = c.prepareStatement(query);
+//
+//            preparedStmt.setString(1, customer_name);
+//            preparedStmt.setString(2, bike_name);
+//            preparedStmt.setString(3, reg_no);
+//            preparedStmt.setString(4, repair_category);
+//            preparedStmt.setString(5, initial_state);
+//
+//            preparedStmt.execute();
+
+            orderPlacedLabel.setVisible(true);
+            orderPlacedLabel.setText("Order Placed");
+        } catch (Exception e) {
+
+            orderPlacedLabel.setVisible(true);
+            orderPlacedLabel.setText("Select any column and click on Place ORDER");
+        }
+
+
+    }//GEN-LAST:event_placeOrderButtonActionPerformed
+
 
     private void AddVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddVehicleButtonActionPerformed
         // TODO add your handling code here:
-        
-        
+        DefaultTableModel model = (DefaultTableModel) vmTable.getModel();
+
+        try {
+            String bike_name = model.getValueAt(0, 0).toString();
+            String reg_no = model.getValueAt(0, 1).toString();
+            String color = model.getValueAt(0, 2).toString();
+            String kilometers = model.getValueAt(0, 3).toString();
+            System.out.println(bike_name);
+            System.out.println(reg_no);
+            System.out.println(color);
+            System.out.println(kilometers);
+
+//            String query = "insert into bike_model(bike_name, registration_no, bike_color, kilometers_run) values(?, ?, ?, ?)";
+//            PreparedStatement preparedStmt = c.prepareStatement(query);
+//
+//            preparedStmt.setString(1, bike_name);
+//            preparedStmt.setString(2, reg_no);
+//            preparedStmt.setString(3, color);
+//            preparedStmt.setString(4, kilometers);
+//
+//            preparedStmt.execute();
+            System.out.println("Added");
+            addedLabel.setVisible(true);
+            addedLabel.setText("Vehicle Added to database");
+        } catch (Exception e) {
+            System.out.println(e + "Select Bike Name and Add Vehicle");
+            addedLabel.setVisible(true);
+            addedLabel.setText("Select Bike Name and Add Vehicle");
+        }
+
+
     }//GEN-LAST:event_AddVehicleButtonActionPerformed
+
+    private void updateQuotationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateQuotationButtonActionPerformed
+        // TODO add your handling code here:
+
+        DefaultTableModel model = (DefaultTableModel) qTable.getModel();
+
+        try {
+            String reg_no = model.getValueAt(0, 0).toString();
+            String costString = model.getValueAt(0, 1).toString();
+            int cost = Integer.parseInt(costString);
+            String cost_for = model.getValueAt(0, 2).toString();
+
+            System.out.println(reg_no);
+            System.out.println(cost);
+            System.out.println(cost_for);
+//            
+//            String query = "insert into bill_quotation(registration_no, cost, cost_for) values(?, ?, ?)";
+//            PreparedStatement preparedStmt = c.prepareStatement(query);
+//
+//            preparedStmt.setString(1, reg_no);
+//            preparedStmt.setInt(2, cost);
+//            preparedStmt.setString(3, cost_for);           
+//
+//            preparedStmt.execute();
+            updateQuotationLabel.setVisible(true);
+            updateQuotationLabel.setText("Quotation updated count: " + model.getRowCount());
+
+            model.setNumRows((model.getRowCount()) + 1);
+        } catch (Exception e) {
+            System.out.println(e + "\nSelect Bike Registration number and click on update Quotation");
+            updateQuotationLabel.setVisible(true);
+            updateQuotationLabel.setText("Select Bike Registration number and click on update Quotation");
+        }
+    }//GEN-LAST:event_updateQuotationButtonActionPerformed
+
+    private void signOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutActionPerformed
+        // TODO add your handling code here:
+        login l = new login();
+        setVisible(false);
+        dispose();
+        l.setVisible(true);
+    }//GEN-LAST:event_signOutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -363,6 +529,7 @@ public class Service_log extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddVehicleButton;
+    private javax.swing.JLabel addedLabel;
     private javax.swing.JTable deliveryView;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane jLayeredPane1;
@@ -376,14 +543,19 @@ public class Service_log extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JLabel orderPlacedLabel;
+    private javax.swing.JButton placeOrderButton;
+    private javax.swing.JTable qTable;
     private javax.swing.JTable rsTable;
     private javax.swing.JButton searchVehicleButton;
     private javax.swing.JTextField searchVehicleText;
+    private javax.swing.JPanel serviceLogPanel;
+    private javax.swing.JButton signOut;
     private javax.swing.JButton updateQuotationButton;
-    private javax.swing.JButton updateServiceButton;
+    private javax.swing.JLabel updateQuotationLabel;
     private javax.swing.JTabbedPane vehicleDeliveryTab;
     private javax.swing.JTable vmTable;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

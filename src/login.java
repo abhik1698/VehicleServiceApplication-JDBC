@@ -9,7 +9,6 @@ import javax.swing.table.DefaultTableModel;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Abhi
@@ -33,6 +32,7 @@ public class login extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
@@ -45,6 +45,11 @@ public class login extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        setType(java.awt.Window.Type.POPUP);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("Authentication"), this, org.jdesktop.beansbinding.BeanProperty.create("title"));
+        bindingGroup.addBinding(binding);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -156,40 +161,23 @@ public class login extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if(username.getText().equals("")){
-            connection co = new connection();
-            co.connect();
-//            try {
-//                co.insert("Abhishek", "101");
-//                System.out.println("Inserted");
-//            } catch (SQLException ex) {
-//                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+        if (username.getText().equals("")) {
             
-//            setVisible(false);
-            
-            Object data[][] = new Object[10][10];
-            try {
-                data = co.getData();
-            } catch (SQLException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            DefaultTableModel model = (DefaultTableModel) accountsTable.getModel();
-            model.setRowCount(0);
-            
-            int i = 0;
-            while( i != 2){
-                model.addRow(data[i]);
-                i++;
-            }
-//            dispose();
-        }else
+            setVisible(false);
+            dispose();
+            Service_log service = new Service_log();
+            service.setVisible(true);
+
+        } else {
             unAuth.setVisible(true);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -241,5 +229,6 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel unAuth;
     private javax.swing.JTextField username;
     private javax.swing.JLabel usernameLabel;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
