@@ -2,6 +2,9 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -26,6 +29,7 @@ public class Service_log extends javax.swing.JFrame {
     public Service_log() {
         initComponents();
         addedLabel.setVisible(false);
+
         c = null;
 
         try {
@@ -59,24 +63,26 @@ public class Service_log extends javax.swing.JFrame {
         vmTable = new javax.swing.JTable();
         AddVehicleButton = new javax.swing.JButton();
         addedLabel = new javax.swing.JLabel();
+        signOut = new javax.swing.JButton();
         jLayeredPane2 = new javax.swing.JLayeredPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         rsTable = new javax.swing.JTable();
         placeOrderButton = new javax.swing.JButton();
         orderPlacedLabel = new javax.swing.JLabel();
+        signOut3 = new javax.swing.JButton();
         jLayeredPane3 = new javax.swing.JLayeredPane();
         jScrollPane4 = new javax.swing.JScrollPane();
         qTable = new javax.swing.JTable();
         updateQuotationButton = new javax.swing.JButton();
         updateQuotationLabel = new javax.swing.JLabel();
+        signOut2 = new javax.swing.JButton();
         jLayeredPane4 = new javax.swing.JLayeredPane();
         jLabel1 = new javax.swing.JLabel();
         searchVehicleText = new javax.swing.JTextField();
         searchVehicleButton = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        deliveryView = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        signOut = new javax.swing.JButton();
+        vehicleSummaryTable = new javax.swing.JTable();
+        signOut1 = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,6 +101,8 @@ public class Service_log extends javax.swing.JFrame {
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("Service Vendor Application"), this, org.jdesktop.beansbinding.BeanProperty.create("title"));
         bindingGroup.addBinding(binding);
+
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         serviceLogPanel.setLayout(new java.awt.BorderLayout());
 
@@ -132,16 +140,31 @@ public class Service_log extends javax.swing.JFrame {
         addedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         addedLabel.setText("---");
 
+        signOut.setBackground(new java.awt.Color(0, 0, 0));
+        signOut.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
+        signOut.setForeground(new java.awt.Color(255, 255, 255));
+        signOut.setText("Sign out");
+        signOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signOutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addComponent(AddVehicleButton)
-                .addContainerGap(178, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1165, Short.MAX_VALUE)
             .addComponent(addedLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(151, 151, 151)
+                        .addComponent(AddVehicleButton))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(signOut)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,11 +174,14 @@ public class Service_log extends javax.swing.JFrame {
                 .addComponent(AddVehicleButton)
                 .addGap(18, 18, 18)
                 .addComponent(addedLabel)
-                .addGap(0, 171, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addComponent(signOut)
+                .addContainerGap())
         );
         jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(AddVehicleButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(addedLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(signOut, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane2.addTab("Vehicle Model", jLayeredPane1);
 
@@ -165,7 +191,7 @@ public class Service_log extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Customer Name", "Bike Name", "Reg No", "Repair Category", "Initial State"
+                "Customer Name", "Bike Name", "Reg No", "Repair Category", "Customer Complaints"
             }
         ) {
             Class[] types = new Class [] {
@@ -176,7 +202,6 @@ public class Service_log extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        rsTable.setColumnSelectionAllowed(true);
         jScrollPane3.setViewportView(rsTable);
 
         placeOrderButton.setText("Place ORDER");
@@ -190,16 +215,31 @@ public class Service_log extends javax.swing.JFrame {
         orderPlacedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         orderPlacedLabel.setText("---");
 
+        signOut3.setBackground(new java.awt.Color(0, 0, 0));
+        signOut3.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
+        signOut3.setForeground(new java.awt.Color(255, 255, 255));
+        signOut3.setText("Sign out");
+        signOut3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signOut3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jLayeredPane2Layout = new javax.swing.GroupLayout(jLayeredPane2);
         jLayeredPane2.setLayout(jLayeredPane2Layout);
         jLayeredPane2Layout.setHorizontalGroup(
             jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-            .addGroup(jLayeredPane2Layout.createSequentialGroup()
-                .addGap(155, 155, 155)
-                .addComponent(placeOrderButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1165, Short.MAX_VALUE)
             .addComponent(orderPlacedLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(placeOrderButton))
+                    .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                        .addGap(157, 157, 157)
+                        .addComponent(signOut3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jLayeredPane2Layout.setVerticalGroup(
             jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,13 +247,16 @@ public class Service_log extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(placeOrderButton)
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(orderPlacedLabel)
-                .addGap(0, 189, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addComponent(signOut3)
+                .addContainerGap())
         );
         jLayeredPane2.setLayer(jScrollPane3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(placeOrderButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(orderPlacedLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(signOut3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane2.addTab("Required Service", jLayeredPane2);
 
@@ -248,16 +291,30 @@ public class Service_log extends javax.swing.JFrame {
         updateQuotationLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         updateQuotationLabel.setText("---");
 
+        signOut2.setBackground(new java.awt.Color(0, 0, 0));
+        signOut2.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
+        signOut2.setForeground(new java.awt.Color(255, 255, 255));
+        signOut2.setText("Sign out");
+        signOut2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signOut2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jLayeredPane3Layout = new javax.swing.GroupLayout(jLayeredPane3);
         jLayeredPane3.setLayout(jLayeredPane3Layout);
         jLayeredPane3Layout.setHorizontalGroup(
             jLayeredPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1165, Short.MAX_VALUE)
             .addComponent(updateQuotationLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(updateQuotationButton)
                 .addGap(147, 147, 147))
+            .addGroup(jLayeredPane3Layout.createSequentialGroup()
+                .addGap(153, 153, 153)
+                .addComponent(signOut2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jLayeredPane3Layout.setVerticalGroup(
             jLayeredPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,11 +324,14 @@ public class Service_log extends javax.swing.JFrame {
                 .addComponent(updateQuotationButton)
                 .addGap(18, 18, 18)
                 .addComponent(updateQuotationLabel)
-                .addGap(0, 149, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addComponent(signOut2)
+                .addContainerGap())
         );
         jLayeredPane3.setLayer(jScrollPane4, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane3.setLayer(updateQuotationButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane3.setLayer(updateQuotationLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane3.setLayer(signOut2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane2.addTab("Quotation", jLayeredPane3);
 
@@ -281,175 +341,99 @@ public class Service_log extends javax.swing.JFrame {
         jLabel1.setText("Search Vehicle");
 
         searchVehicleButton.setText("Search");
+        searchVehicleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchVehicleButtonActionPerformed(evt);
+            }
+        });
 
-        deliveryView.setModel(new javax.swing.table.DefaultTableModel(
+        vehicleSummaryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Customer Name", "Vehicle No", "Repair Category", "Bill"
+                "Customer Name", "Bike Name", "Bike Color", "Vehicle No", "Kilometers Run", "Repair Category", "Customer Complaints", "Total Bill"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(deliveryView);
+        jScrollPane5.setViewportView(vehicleSummaryTable);
+
+        signOut1.setBackground(new java.awt.Color(0, 0, 0));
+        signOut1.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
+        signOut1.setForeground(new java.awt.Color(255, 255, 255));
+        signOut1.setText("Sign out");
+        signOut1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signOut1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jLayeredPane4Layout = new javax.swing.GroupLayout(jLayeredPane4);
         jLayeredPane4.setLayout(jLayeredPane4Layout);
         jLayeredPane4Layout.setHorizontalGroup(
             jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane4Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+            .addGroup(jLayeredPane4Layout.createSequentialGroup()
                 .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(searchVehicleButton)
-                    .addComponent(searchVehicleText, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42))
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jLayeredPane4Layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(signOut1))
+                    .addGroup(jLayeredPane4Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(searchVehicleButton)
+                            .addComponent(searchVehicleText, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jLayeredPane4Layout.setVerticalGroup(
             jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane4Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(42, 42, 42)
                 .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(searchVehicleText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(27, 27, 27)
                 .addComponent(searchVehicleButton)
-                .addGap(65, 65, 65)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
+                .addComponent(signOut1)
+                .addContainerGap())
         );
         jLayeredPane4.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane4.setLayer(searchVehicleText, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane4.setLayer(searchVehicleButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane4.setLayer(jScrollPane5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane4.setLayer(signOut1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        vehicleDeliveryTab.addTab("Delivery", jLayeredPane4);
-
-        signOut.setBackground(new java.awt.Color(0, 0, 0));
-        signOut.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
-        signOut.setForeground(new java.awt.Color(255, 255, 255));
-        signOut.setText("Sign out");
-        signOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signOutActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(152, 152, 152)
-                .addComponent(signOut)
-                .addContainerGap(168, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(136, 136, 136)
-                .addComponent(signOut)
-                .addContainerGap(266, Short.MAX_VALUE))
-        );
-
-        vehicleDeliveryTab.addTab("Sign out", jPanel1);
+        vehicleDeliveryTab.addTab("Vehicle Summary", jLayeredPane4);
 
         serviceLogPanel.add(vehicleDeliveryTab, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(serviceLogPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(serviceLogPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(serviceLogPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void placeOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonActionPerformed
+    private void signOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) rsTable.getModel();
-
-        try {
-            String customer_name = model.getValueAt(0, 0).toString();
-            String bike_name = model.getValueAt(0, 1).toString();
-            String reg_no = model.getValueAt(0, 2).toString();
-            String repair_category = model.getValueAt(0, 3).toString();
-            String initial_state = model.getValueAt(0, 4).toString();
-//
-//            String query = "insert into service(customer_name, bike_name, registration_no, repair_category, initial_state) values(?, ?, ?, ?, ?)";
-//            PreparedStatement preparedStmt = c.prepareStatement(query);
-//
-//            preparedStmt.setString(1, customer_name);
-//            preparedStmt.setString(2, bike_name);
-//            preparedStmt.setString(3, reg_no);
-//            preparedStmt.setString(4, repair_category);
-//            preparedStmt.setString(5, initial_state);
-//
-//            preparedStmt.execute();
-
-            orderPlacedLabel.setVisible(true);
-            orderPlacedLabel.setText("Order Placed");
-        } catch (Exception e) {
-
-            orderPlacedLabel.setVisible(true);
-            orderPlacedLabel.setText("Select any column and click on Place ORDER");
-        }
-
-
-    }//GEN-LAST:event_placeOrderButtonActionPerformed
-
-
-    private void AddVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddVehicleButtonActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) vmTable.getModel();
-
-        try {
-            String bike_name = model.getValueAt(0, 0).toString();
-            String reg_no = model.getValueAt(0, 1).toString();
-            String color = model.getValueAt(0, 2).toString();
-            String kilometers = model.getValueAt(0, 3).toString();
-            System.out.println(bike_name);
-            System.out.println(reg_no);
-            System.out.println(color);
-            System.out.println(kilometers);
-
-//            String query = "insert into bike_model(bike_name, registration_no, bike_color, kilometers_run) values(?, ?, ?, ?)";
-//            PreparedStatement preparedStmt = c.prepareStatement(query);
-//
-//            preparedStmt.setString(1, bike_name);
-//            preparedStmt.setString(2, reg_no);
-//            preparedStmt.setString(3, color);
-//            preparedStmt.setString(4, kilometers);
-//
-//            preparedStmt.execute();
-            System.out.println("Added");
-            addedLabel.setVisible(true);
-            addedLabel.setText("Vehicle Added to database");
-        } catch (Exception e) {
-            System.out.println(e + "Select Bike Name and Add Vehicle");
-            addedLabel.setVisible(true);
-            addedLabel.setText("Select Bike Name and Add Vehicle");
-        }
-
-
-    }//GEN-LAST:event_AddVehicleButtonActionPerformed
-
+        login l = new login();
+        setVisible(false);
+        dispose();
+        l.setVisible(true);
+    }//GEN-LAST:event_signOutActionPerformed
+    int i = 1;
     private void updateQuotationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateQuotationButtonActionPerformed
         // TODO add your handling code here:
 
@@ -461,36 +445,135 @@ public class Service_log extends javax.swing.JFrame {
             int cost = Integer.parseInt(costString);
             String cost_for = model.getValueAt(0, 2).toString();
 
-            System.out.println(reg_no);
-            System.out.println(cost);
-            System.out.println(cost_for);
-//            
-//            String query = "insert into bill_quotation(registration_no, cost, cost_for) values(?, ?, ?)";
-//            PreparedStatement preparedStmt = c.prepareStatement(query);
-//
-//            preparedStmt.setString(1, reg_no);
-//            preparedStmt.setInt(2, cost);
-//            preparedStmt.setString(3, cost_for);           
-//
-//            preparedStmt.execute();
-            updateQuotationLabel.setVisible(true);
-            updateQuotationLabel.setText("Quotation updated count: " + model.getRowCount());
+            String query = "insert into bill_quotation(registration_no, cost, cost_for) values(?, ?, ?)";
+            PreparedStatement preparedStmt = c.prepareStatement(query);
 
-            model.setNumRows((model.getRowCount()) + 1);
-        } catch (Exception e) {
-            System.out.println(e + "\nSelect Bike Registration number and click on update Quotation");
+            preparedStmt.setString(1, reg_no);
+            preparedStmt.setInt(2, cost);
+            preparedStmt.setString(3, cost_for);
+
+            preparedStmt.execute();
             updateQuotationLabel.setVisible(true);
-            updateQuotationLabel.setText("Select Bike Registration number and click on update Quotation");
+            updateQuotationLabel.setText("Quotation updated count: " + (i++));
+
+        } catch (Exception e) {
+            System.out.println(e);
+            updateQuotationLabel.setVisible(true);
+            updateQuotationLabel.setText(e.toString());
         }
     }//GEN-LAST:event_updateQuotationButtonActionPerformed
 
-    private void signOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutActionPerformed
+    private void placeOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) rsTable.getModel();
+
+        try {
+            String customer_name = model.getValueAt(0, 0).toString();
+            String bike_name = model.getValueAt(0, 1).toString();
+            String reg_no = model.getValueAt(0, 2).toString();
+            String repair_category = model.getValueAt(0, 3).toString();
+            String customer_complaints = model.getValueAt(0, 4).toString();
+
+            String query = "insert into service(customer_name, bike_name, registration_no, repair_category, customer_complaints) values(?, ?, ?, ?, ?)";
+            PreparedStatement preparedStmt = c.prepareStatement(query);
+
+            preparedStmt.setString(1, customer_name);
+            preparedStmt.setString(2, bike_name);
+            preparedStmt.setString(3, reg_no);
+            preparedStmt.setString(4, repair_category);
+            preparedStmt.setString(5, customer_complaints);
+
+            preparedStmt.execute();
+
+            orderPlacedLabel.setVisible(true);
+            orderPlacedLabel.setText("Order Placed");
+        } catch (Exception e) {
+
+            orderPlacedLabel.setVisible(true);
+            orderPlacedLabel.setText(e.toString());
+        }
+
+    }//GEN-LAST:event_placeOrderButtonActionPerformed
+
+    private void AddVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddVehicleButtonActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) vmTable.getModel();
+
+        try {
+            String bike_name = model.getValueAt(0, 0).toString();
+            String reg_no = model.getValueAt(0, 1).toString();
+            String color = model.getValueAt(0, 2).toString();
+            String kilometers = model.getValueAt(0, 3).toString();
+
+            String query = "insert into bike_model(bike_name, registration_no, bike_color, kilometers_run) values(?, ?, ?, ?)";
+            PreparedStatement preparedStmt = c.prepareStatement(query);
+
+            preparedStmt.setString(1, bike_name);
+            preparedStmt.setString(2, reg_no);
+            preparedStmt.setString(3, color);
+            preparedStmt.setString(4, kilometers);
+
+            preparedStmt.execute();
+
+            addedLabel.setVisible(true);
+            addedLabel.setText("Vehicle Added to database");
+        } catch (Exception e) {
+            addedLabel.setVisible(true);
+            addedLabel.setText(e.toString());
+        }
+
+    }//GEN-LAST:event_AddVehicleButtonActionPerformed
+
+    private void signOut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOut1ActionPerformed
         // TODO add your handling code here:
         login l = new login();
         setVisible(false);
         dispose();
         l.setVisible(true);
-    }//GEN-LAST:event_signOutActionPerformed
+    }//GEN-LAST:event_signOut1ActionPerformed
+
+    private void signOut2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOut2ActionPerformed
+        // TODO add your handling code here:
+        login l = new login();
+        setVisible(false);
+        dispose();
+        l.setVisible(true);
+    }//GEN-LAST:event_signOut2ActionPerformed
+
+    private void signOut3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOut3ActionPerformed
+        // TODO add your handling code here:
+        login l = new login();
+        setVisible(false);
+        dispose();
+        l.setVisible(true);
+    }//GEN-LAST:event_signOut3ActionPerformed
+
+    private void searchVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchVehicleButtonActionPerformed
+        // TODO add your handling code here:
+        String search = searchVehicleText.getText();
+        Object[][] row = new Object[3][15];
+        int vehicleFoundFlag = 0;
+        connection myConnection = new connection();
+        try {
+            row = myConnection.vehicleSummary(search);
+            DefaultTableModel summaryTable = (DefaultTableModel) vehicleSummaryTable.getModel();
+            System.out.println(row[1][0]);
+            summaryTable.setValueAt(row[0][0], 0, 0);
+            summaryTable.setValueAt(row[0][1], 0, 1);
+            summaryTable.setValueAt(row[0][2], 0, 2);
+            summaryTable.setValueAt(row[0][3], 0, 3);
+            summaryTable.setValueAt(row[0][4], 0, 4);
+            summaryTable.setValueAt(row[0][5], 0, 5);
+            summaryTable.setValueAt(row[0][6], 0, 6);
+            summaryTable.setValueAt(row[0][7], 0, 7);
+
+            vehicleFoundFlag = 1;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Service_log.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_searchVehicleButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -530,13 +613,11 @@ public class Service_log extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddVehicleButton;
     private javax.swing.JLabel addedLabel;
-    private javax.swing.JTable deliveryView;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JLayeredPane jLayeredPane3;
     private javax.swing.JLayeredPane jLayeredPane4;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -552,9 +633,13 @@ public class Service_log extends javax.swing.JFrame {
     private javax.swing.JTextField searchVehicleText;
     private javax.swing.JPanel serviceLogPanel;
     private javax.swing.JButton signOut;
+    private javax.swing.JButton signOut1;
+    private javax.swing.JButton signOut2;
+    private javax.swing.JButton signOut3;
     private javax.swing.JButton updateQuotationButton;
     private javax.swing.JLabel updateQuotationLabel;
     private javax.swing.JTabbedPane vehicleDeliveryTab;
+    private javax.swing.JTable vehicleSummaryTable;
     private javax.swing.JTable vmTable;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
