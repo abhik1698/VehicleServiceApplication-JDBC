@@ -20,6 +20,7 @@ public class customerView extends javax.swing.JFrame {
      */
     public customerView() {
         initComponents();
+        loadingLabel.setVisible(false);
     }
 
     /**
@@ -40,9 +41,10 @@ public class customerView extends javax.swing.JFrame {
         quotationTable = new javax.swing.JTable();
         searchButton = new javax.swing.JButton();
         foundLabel = new javax.swing.JLabel();
-        signoutButton = new javax.swing.JButton();
+        closeWindowButton = new javax.swing.JButton();
+        loadingLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bill OVERVIEW");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -73,6 +75,7 @@ public class customerView extends javax.swing.JFrame {
             }
         });
         billOverviewTable.setColumnSelectionAllowed(true);
+        billOverviewTable.setEnabled(false);
         jScrollPane1.setViewportView(billOverviewTable);
 
         quotationTable.setBorder(new javax.swing.border.MatteBorder(null));
@@ -93,6 +96,7 @@ public class customerView extends javax.swing.JFrame {
             }
         });
         quotationTable.setColumnSelectionAllowed(true);
+        quotationTable.setEnabled(false);
         jScrollPane2.setViewportView(quotationTable);
 
         searchButton.setText("Search");
@@ -106,13 +110,17 @@ public class customerView extends javax.swing.JFrame {
         foundLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         foundLabel.setText("---");
 
-        signoutButton.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
-        signoutButton.setText("Sign-out");
-        signoutButton.addActionListener(new java.awt.event.ActionListener() {
+        closeWindowButton.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        closeWindowButton.setText("Close Window");
+        closeWindowButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signoutButtonActionPerformed(evt);
+                closeWindowButtonActionPerformed(evt);
             }
         });
+
+        loadingLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        loadingLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loadingLabel.setText("Loading...");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -134,8 +142,12 @@ public class customerView extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(signoutButton, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(closeWindowButton, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(155, 155, 155)
+                .addComponent(loadingLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,25 +161,30 @@ public class customerView extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(foundLabel)
-                .addGap(35, 35, 35)
+                .addGap(11, 11, 11)
+                .addComponent(loadingLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(signoutButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(closeWindowButton)
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 460));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
  connection bill = new connection();
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
 
+        loadingLabel.setVisible(true);
+
         String rNo = registrationNoSearch.getText();
 
         DefaultTableModel quotationTab = (DefaultTableModel) quotationTable.getModel();
         DefaultTableModel billOverviewTab = (DefaultTableModel) billOverviewTable.getModel();
         quotationTab.setNumRows(1);
+        billOverviewTab.setNumRows(1);
         int found = 0, i = 0, j = 0, sum = 0, costs[] = null, z;
 
 //Adding data to billOverviewTable
@@ -189,7 +206,7 @@ public class customerView extends javax.swing.JFrame {
                     i++;
                 }
             } catch (Exception e) {
-                System.out.println("Registration number mismatch");
+                billOverviewTab.setNumRows(0);
             }
 
 //Calculating Sum of cost in bill_quotation for searched Vehicle
@@ -201,7 +218,7 @@ public class customerView extends javax.swing.JFrame {
                 }
                 billOverviewTab.setValueAt(sum, 0, 2);
             } else {
-                foundLabel.setText("No Vehicle FOUND");
+                foundLabel.setText("No record found");
             }
 
         } catch (SQLException ex) {
@@ -233,17 +250,18 @@ public class customerView extends javax.swing.JFrame {
         if (found != 1) {
             quotationTab.setNumRows(0);
         }
+        loadingLabel.setVisible(false);
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void registrationNoSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrationNoSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_registrationNoSearchActionPerformed
 
-    private void signoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signoutButtonActionPerformed
+    private void closeWindowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeWindowButtonActionPerformed
         // TODO add your handling code here
         setVisible(false);
         dispose();
-    }//GEN-LAST:event_signoutButtonActionPerformed
+    }//GEN-LAST:event_closeWindowButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -282,14 +300,16 @@ public class customerView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable billOverviewTable;
+    private javax.swing.JButton closeWindowButton;
     private javax.swing.JLabel foundLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel loadingLabel;
     private javax.swing.JTable quotationTable;
     private javax.swing.JTextField registrationNoSearch;
     private javax.swing.JButton searchButton;
-    private javax.swing.JButton signoutButton;
     // End of variables declaration//GEN-END:variables
+
 }

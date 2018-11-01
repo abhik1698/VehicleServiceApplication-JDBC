@@ -18,9 +18,9 @@ import java.sql.Statement;
  */
 public class connection {
 
-    private static final String serverPath = "jdbc:mysql://localhost:3306/bike_service";
-    private static final String username = "root";
-    private static final String password = "root";
+    private static final String serverPath = "jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12263779";
+    private static final String username = "sql12263779";
+    private static final String password = "1wexZhFFff";
 
     Connection c = null;
 
@@ -40,7 +40,7 @@ public class connection {
         Object[][] row = new Object[50][5];
         int i = 0;
 
-        CallableStatement stmt = c.prepareCall("call bike_service.bill;");
+        CallableStatement stmt = c.prepareCall("call sql12263779.bill;");
 
         ResultSet r = stmt.executeQuery();
         quotationTableRowCount = 0;
@@ -66,7 +66,7 @@ public class connection {
         Object[][] row = new Object[50][10];
         int i = 0;
 
-        CallableStatement stmt = c.prepareCall("call bike_service.bill_quotation;");
+        CallableStatement stmt = c.prepareCall("call sql12263779.bill_quotation;");
 
         ResultSet r = stmt.executeQuery();
         quotationTable2RowCount = 0;
@@ -83,13 +83,43 @@ public class connection {
         }
         return row;
     }
+    int totalVehicles = 0;
+
+    public Object[][] allVehicleSummary() throws SQLException {
+
+        Object[][] row = new Object[500][10];
+        int i = 0;
+
+        CallableStatement stmt = c.prepareCall("{call sql12263779.allVehicleSummary()}");
+
+        ResultSet r = stmt.executeQuery();
+        while (r.next()) {
+            String customer_name = r.getString("customer_name");
+            String bike_name = r.getString("bike_name");
+            String bike_color = r.getString("bike_color");
+            String registration_no = r.getString("registration_no");
+
+            Object[][] billOverview = new Object[50][5];
+            billOverview = bikeBill();
+
+            row[i][0] = customer_name;
+            row[i][1] = bike_name;
+            row[i][2] = bike_color;
+            row[i][3] = registration_no;
+
+            i++;
+            totalVehicles++;
+        }
+
+        return row;
+    }
 
     public Object[][] vehicleSummary(String reg) throws SQLException {
 
         Object[][] row = new Object[50][10];
         int i = 0;
 
-        CallableStatement stmt = c.prepareCall("{call bike_service.vehicleSummary(?)}");
+        CallableStatement stmt = c.prepareCall("{call sql12263779.vehicleSummary(?)}");
         stmt.setString(1, reg);
         ResultSet r = stmt.executeQuery();
         while (r.next()) {
@@ -101,15 +131,16 @@ public class connection {
             String repair_category = r.getString("repair_category");
             String customer_complaints = r.getString("customer_complaints");
             int sum = 0;
-            
+
             Object[][] billOverview = new Object[50][5];
             billOverview = bikeBill();
-            
+
             //Sum of costs in bill_quotation table:
             for (i = 0; i < quotationTableRowCount; i++) {
-                if (billOverview[i][3].toString().equalsIgnoreCase(reg))
-                sum += Integer.parseInt(billOverview[i][2].toString());
-            }            
+                if (billOverview[i][3].toString().equalsIgnoreCase(reg)) {
+                    sum += Integer.parseInt(billOverview[i][2].toString());
+                }
+            }
             row[0][0] = customer_name;
             row[0][1] = bike_name;
             row[0][2] = bike_color;
