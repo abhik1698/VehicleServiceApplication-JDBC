@@ -20,7 +20,6 @@ public class customerView extends javax.swing.JFrame {
      */
     public customerView() {
         initComponents();
-        loadingLabel.setVisible(false);
     }
 
     /**
@@ -42,7 +41,6 @@ public class customerView extends javax.swing.JFrame {
         searchButton = new javax.swing.JButton();
         foundLabel = new javax.swing.JLabel();
         closeWindowButton = new javax.swing.JButton();
-        loadingLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bill OVERVIEW");
@@ -118,10 +116,6 @@ public class customerView extends javax.swing.JFrame {
             }
         });
 
-        loadingLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        loadingLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        loadingLabel.setText("Loading...");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -144,10 +138,6 @@ public class customerView extends javax.swing.JFrame {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(closeWindowButton, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(155, 155, 155)
-                .addComponent(loadingLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,9 +151,7 @@ public class customerView extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(foundLabel)
-                .addGap(11, 11, 11)
-                .addComponent(loadingLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(46, 46, 46)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(closeWindowButton)
@@ -176,8 +164,6 @@ public class customerView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
  connection bill = new connection();
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-
-        loadingLabel.setVisible(true);
 
         String rNo = registrationNoSearch.getText();
 
@@ -241,6 +227,7 @@ public class customerView extends javax.swing.JFrame {
                     quotationTab.setValueAt(row[i][1], z, 1);
                     quotationTab.setValueAt(row[i][2], z, 2);
                     z++;
+
                 }
             }
             quotationTab.setNumRows(z);
@@ -250,7 +237,7 @@ public class customerView extends javax.swing.JFrame {
         if (found != 1) {
             quotationTab.setNumRows(0);
         }
-        loadingLabel.setVisible(false);
+
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void registrationNoSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrationNoSearchActionPerformed
@@ -306,7 +293,6 @@ public class customerView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel loadingLabel;
     private javax.swing.JTable quotationTable;
     private javax.swing.JTextField registrationNoSearch;
     private javax.swing.JButton searchButton;

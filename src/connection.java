@@ -18,9 +18,9 @@ import java.sql.Statement;
  */
 public class connection {
 
-    private static final String serverPath = "jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12263779";
-    private static final String username = "sql12263779";
-    private static final String password = "1wexZhFFff";
+    private static final String serverPath = "jdbc:mysql://localhost:3306/bike_service";
+    private static final String username = "root";
+    private static final String password = "root";
 
     Connection c = null;
 
@@ -40,7 +40,7 @@ public class connection {
         Object[][] row = new Object[50][5];
         int i = 0;
 
-        CallableStatement stmt = c.prepareCall("call sql12263779.bill;");
+        CallableStatement stmt = c.prepareCall("call bike_service.bill;");
 
         ResultSet r = stmt.executeQuery();
         quotationTableRowCount = 0;
@@ -66,7 +66,7 @@ public class connection {
         Object[][] row = new Object[50][10];
         int i = 0;
 
-        CallableStatement stmt = c.prepareCall("call sql12263779.bill_quotation;");
+        CallableStatement stmt = c.prepareCall("call bike_service.bill_quotation;");
 
         ResultSet r = stmt.executeQuery();
         quotationTable2RowCount = 0;
@@ -90,7 +90,7 @@ public class connection {
         Object[][] row = new Object[500][10];
         int i = 0;
 
-        CallableStatement stmt = c.prepareCall("{call sql12263779.allVehicleSummary()}");
+        CallableStatement stmt = c.prepareCall("{call bike_service.allVehicleSummary()}");
 
         ResultSet r = stmt.executeQuery();
         while (r.next()) {
@@ -119,7 +119,7 @@ public class connection {
         Object[][] row = new Object[50][10];
         int i = 0;
 
-        CallableStatement stmt = c.prepareCall("{call sql12263779.vehicleSummary(?)}");
+        CallableStatement stmt = c.prepareCall("{call bike_service.vehicleSummary(?)}");
         stmt.setString(1, reg);
         ResultSet r = stmt.executeQuery();
         while (r.next()) {
