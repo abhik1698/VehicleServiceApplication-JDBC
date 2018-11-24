@@ -1,8 +1,10 @@
 
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,13 +15,17 @@ import java.util.logging.Logger;
  *
  * @author Abhi
  */
-public class deleteRecords extends javax.swing.JFrame {
+public class DeleteRecords extends javax.swing.JFrame {
 
     /**
      * Creates new form deleteRecords
      */
-    public deleteRecords() {
+    connection call = new connection();
+    CallableStatement stmt;
+
+    public DeleteRecords() {
         initComponents();
+        view();
     }
 
     /**
@@ -35,10 +41,12 @@ public class deleteRecords extends javax.swing.JFrame {
         regLabel = new javax.swing.JLabel();
         regNoText = new javax.swing.JTextField();
         deleteButton = new javax.swing.JButton();
-        acknowledgementLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        regTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Delete Records");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -53,35 +61,69 @@ public class deleteRecords extends javax.swing.JFrame {
             }
         });
         jPanel1.add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 90, -1, -1));
-        jPanel1.add(acknowledgementLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 330, 27));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
-        );
+        regTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null}
+            },
+            new String [] {
+                "Vehicle Records"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        regTable.setEnabled(false);
+        jScrollPane1.setViewportView(regTable);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 0, 150, 340));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-int i = 0;
+  public void view() {
+
+        DefaultTableModel model = (DefaultTableModel) regTable.getModel();
+        int row = 0;
+        String s = null;
+        try {
+            stmt = call.c.prepareCall("{call bike_service.models()}");
+            ResultSet r = stmt.executeQuery();
+
+            while (r.next()) {
+                s = r.getString("registration_no");
+                model.setValueAt(s, row, 0);
+                row++;
+                model.setNumRows(row + 1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DeleteRecords.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        model.setNumRows(row);
+    }
+
+    int i = 0;
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
-
         String reg_no = regNoText.getText();
-        connection call = new connection();
-        CallableStatement stmt;
         try {
             stmt = call.c.prepareCall("{call bike_service.delete_bike_model(?)}");
             stmt.setString(1, reg_no);
-            stmt.executeQuery();            
-            acknowledgementLabel.setText("Record Removed Count - " + ++i);
+            stmt.executeQuery();
+            dispose();
+            DefaultTableModel model = (DefaultTableModel) regTable.getModel();
+            model.setNumRows(1);
+            view();
+            setVisible(true);
+
         } catch (SQLException ex) {
-            Logger.getLogger(deleteRecords.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeleteRecords.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_deleteButtonActionPerformed
@@ -103,29 +145,32 @@ int i = 0;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(deleteRecords.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DeleteRecords.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(deleteRecords.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DeleteRecords.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(deleteRecords.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DeleteRecords.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(deleteRecords.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DeleteRecords.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new deleteRecords().setVisible(true);
+                new DeleteRecords().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel acknowledgementLabel;
     private javax.swing.JButton deleteButton;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel regLabel;
     private javax.swing.JTextField regNoText;
+    private javax.swing.JTable regTable;
     // End of variables declaration//GEN-END:variables
+
 }

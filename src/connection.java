@@ -2,10 +2,8 @@
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -98,7 +96,8 @@ public class connection {
             String bike_name = r.getString("bike_name");
             String bike_color = r.getString("bike_color");
             String registration_no = r.getString("registration_no");
-
+            String timeStamp = r.getString("time_stamp");
+            
             Object[][] billOverview = new Object[50][5];
             billOverview = bikeBill();
 
@@ -106,7 +105,7 @@ public class connection {
             row[i][1] = bike_name;
             row[i][2] = bike_color;
             row[i][3] = registration_no;
-
+            row[i][4] = timeStamp;
             i++;
             totalVehicles++;
         }

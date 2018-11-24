@@ -164,9 +164,8 @@ public class customerView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
  connection bill = new connection();
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-
+        
         String rNo = registrationNoSearch.getText();
-
         DefaultTableModel quotationTab = (DefaultTableModel) quotationTable.getModel();
         DefaultTableModel billOverviewTab = (DefaultTableModel) billOverviewTable.getModel();
         quotationTab.setNumRows(1);
@@ -177,13 +176,13 @@ public class customerView extends javax.swing.JFrame {
         Object[][] billOverview = new Object[50][5];
         try {
             billOverview = bill.bikeBill();
-
+            
             try {
                 while (found != 1) {
-
+                    
                     if (billOverview[i][3].toString().equalsIgnoreCase(rNo)) {
                         found = 1;
-
+                        
                         for (j = 0; j < 3; j++) {
                             billOverviewTab.setValueAt(billOverview[i][j], 0, j);
                         }
@@ -206,7 +205,7 @@ public class customerView extends javax.swing.JFrame {
             } else {
                 foundLabel.setText("No record found");
             }
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(customerView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -215,19 +214,19 @@ public class customerView extends javax.swing.JFrame {
         found = 0;
         z = 0;
         try {
-
+            
             Object[][] row = bill.billQuotation();
-
+            
             for (i = 0; i < bill.quotationTable2RowCount; i++) {
                 if ((row[i][0]).toString().equalsIgnoreCase(rNo)) {
                     found = 1;
-
+                    
                     quotationTab.setNumRows(i + 1);
                     quotationTab.setValueAt(row[i][0], z, 0);
                     quotationTab.setValueAt(row[i][1], z, 1);
                     quotationTab.setValueAt(row[i][2], z, 2);
                     z++;
-
+                    
                 }
             }
             quotationTab.setNumRows(z);
@@ -237,6 +236,7 @@ public class customerView extends javax.swing.JFrame {
         if (found != 1) {
             quotationTab.setNumRows(0);
         }
+        
 
     }//GEN-LAST:event_searchButtonActionPerformed
 

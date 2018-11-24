@@ -93,6 +93,11 @@ public class login extends javax.swing.JFrame {
         unAuth.setText("unAuthorized Credentials");
 
         username.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameActionPerformed(evt);
+            }
+        });
 
         password.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         password.addActionListener(new java.awt.event.ActionListener() {
@@ -277,6 +282,10 @@ public class login extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
+
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameActionPerformed
 
     /**
      * @param args the command line arguments
