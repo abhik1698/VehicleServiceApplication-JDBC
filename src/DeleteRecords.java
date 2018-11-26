@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Abhi
  */
-public class DeleteRecords extends javax.swing.JFrame {
+public final class DeleteRecords extends javax.swing.JFrame {
 
     /**
      * Creates new form deleteRecords

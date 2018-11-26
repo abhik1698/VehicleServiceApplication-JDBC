@@ -39,7 +39,7 @@ public class login extends javax.swing.JFrame {
 //        } catch (MalformedURLException e) {
 //            throw new RuntimeException(e);
 //        } catch (IOException e) {
-            return true;
+        return true;
 //        }
     }
 
@@ -144,9 +144,9 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        walpaper.setIcon(new javax.swing.ImageIcon("E:\\Pictures\\ZMR.jpg")); // NOI18N
+        walpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ZMR.jpg"))); // NOI18N
 
-        closeButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Abhi\\Desktop\\010_x-3-512.png")); // NOI18N
+        closeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/010_x-3-512.png"))); // NOI18N
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeButtonActionPerformed(evt);
@@ -197,14 +197,14 @@ public class login extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(aboutButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(closeButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 117, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .add(closeButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                     .add(walpaper, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 728, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jPanel1Layout.createSequentialGroup()
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .add(title)
                         .add(1, 1, 1)
@@ -223,7 +223,7 @@ public class login extends javax.swing.JFrame {
                         .add(52, 52, 52)
                         .add(customerLoginButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(closeButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(closeButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(aboutButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 38, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(0, 0, Short.MAX_VALUE))
         );
@@ -271,7 +271,7 @@ public class login extends javax.swing.JFrame {
         // TODO add your handling code here:
         About aboutPage = new About();
         aboutPage.setVisible(true);
-        
+
     }//GEN-LAST:event_aboutButtonActionPerformed
 
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed

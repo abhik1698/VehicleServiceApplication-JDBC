@@ -97,7 +97,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="aboutButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="closeButton" min="-2" pref="117" max="-2" attributes="0"/>
+                          <Component id="closeButton" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -108,7 +108,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="walpaper" min="-2" pref="728" max="-2" attributes="0"/>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="title" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
@@ -129,7 +129,7 @@
                           <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                           <Component id="customerLoginButton" min="-2" pref="51" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="closeButton" min="-2" pref="123" max="-2" attributes="0"/>
+                          <Component id="closeButton" min="-2" pref="72" max="-2" attributes="0"/>
                       </Group>
                       <Component id="aboutButton" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
@@ -275,14 +275,14 @@
         <Component class="javax.swing.JLabel" name="walpaper">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="E:\Pictures\ZMR.jpg"/>
+              <Image iconType="3" name="/ZMR.jpg"/>
             </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="closeButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Abhi\Desktop\010_x-3-512.png"/>
+              <Image iconType="3" name="/010_x-3-512.png"/>
             </Property>
           </Properties>
           <Events>

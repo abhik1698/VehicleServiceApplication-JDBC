@@ -2,6 +2,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -507,7 +508,7 @@ public class Service_log extends javax.swing.JFrame {
                 updateQuotationLabel.setText("Quotation updated +");
             }
             q++;
-        } catch (Exception e) {
+        } catch (NumberFormatException | SQLException e) {
             System.out.println(e);
             updateQuotationLabel.setVisible(true);
             updateQuotationLabel.setText(e.toString());
@@ -548,7 +549,7 @@ public class Service_log extends javax.swing.JFrame {
             orderPlacedLabel.setVisible(true);
             orderPlacedLabel.setText(e.toString());
         }
-
+        searchVehicleButtonActionPerformed(evt);
     }//GEN-LAST:event_placeOrderButtonActionPerformed
     int z = 0;
     private void AddVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddVehicleButtonActionPerformed
@@ -654,6 +655,7 @@ public class Service_log extends javax.swing.JFrame {
         // TODO add your handling code here:
         DeleteRecords d = new DeleteRecords();
         d.setVisible(true);
+        
     }//GEN-LAST:event_deleteBikeModelActionPerformed
 
     private void editQuotationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuotationButtonActionPerformed
@@ -695,10 +697,8 @@ public class Service_log extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Service_log().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Service_log().setVisible(true);
         });
     }
 
