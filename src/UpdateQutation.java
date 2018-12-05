@@ -186,7 +186,7 @@ public class UpdateQutation extends javax.swing.JFrame {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        connection bill = new connection();
+        Connect bill = new Connect();
         int found = 0, z = 0, i;
         String rNo = regnoTextField.getText();
         DefaultTableModel quotationTab = (DefaultTableModel) quotationTable.getModel();
@@ -204,7 +204,7 @@ public class UpdateQutation extends javax.swing.JFrame {
             }
             quotationTab.setNumRows(z);
         } catch (SQLException ex) {
-            Logger.getLogger(customerView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (found != 1) {
             quotationTab.setNumRows(0);
@@ -221,7 +221,7 @@ public class UpdateQutation extends javax.swing.JFrame {
         if (!beforeCostString.isEmpty() && !afterCostString.isEmpty()) {
             int beforeCost = Integer.parseInt(beforeCostString);
             int afterCost = Integer.parseInt(afterCostString);
-            connection call = new connection();
+            Connect call = new Connect();
             CallableStatement stmt;
             try {
                 stmt = call.c.prepareCall("{call bike_service.update_quotation_proc(?, ?, ?, ?)}");
@@ -246,7 +246,7 @@ public class UpdateQutation extends javax.swing.JFrame {
 
         if (!beforeCostString.isEmpty()) {
             int beforeCost = Integer.parseInt(beforeCostString);
-            connection call = new connection();
+            Connect call = new Connect();
             CallableStatement stmt;
             try {
                 stmt = call.c.prepareCall("{call bike_service.delete_quotation_proc(?, ?, ?)}");

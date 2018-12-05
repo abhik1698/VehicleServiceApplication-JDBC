@@ -2,7 +2,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -508,8 +507,7 @@ public class Service_log extends javax.swing.JFrame {
                 updateQuotationLabel.setText("Quotation updated +");
             }
             q++;
-        } catch (NumberFormatException | SQLException e) {
-            System.out.println(e);
+        } catch (Exception e) {
             updateQuotationLabel.setVisible(true);
             updateQuotationLabel.setText(e.toString());
         }
@@ -588,7 +586,7 @@ public class Service_log extends javax.swing.JFrame {
 
     private void signOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutActionPerformed
         // TODO add your handling code here:
-        login l = new login();
+        Login l = new Login();
         setVisible(false);
         dispose();
         l.setVisible(true);
@@ -598,12 +596,12 @@ public class Service_log extends javax.swing.JFrame {
     private void searchVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchVehicleButtonActionPerformed
         // TODO add your handling code here:
         String search = searchVehicleText.getText();
-        Object[][] row = new Object[3][15];
-        Object[][] allVehicleRow = new Object[500][15];
 
-        connection myConnection = new connection();
+        Connect myConnection = new Connect();
 
         try {
+            Object[][] row;
+            Object[][] allVehicleRow;
             row = myConnection.vehicleSummary(search);
             DefaultTableModel summaryTable = (DefaultTableModel) vehicleSummaryTable.getModel();
             DefaultTableModel allVehicleSummaryTab = (DefaultTableModel) allVehicleSummaryTable.getModel();
@@ -611,14 +609,9 @@ public class Service_log extends javax.swing.JFrame {
             if (!search.isEmpty() && row.length != 0) {
                 viewQuotationButton.setVisible(true);
                 summaryTable.setNumRows(1);
-                summaryTable.setValueAt(row[0][0], 0, 0);
-                summaryTable.setValueAt(row[0][1], 0, 1);
-                summaryTable.setValueAt(row[0][2], 0, 2);
-                summaryTable.setValueAt(row[0][3], 0, 3);
-                summaryTable.setValueAt(row[0][4], 0, 4);
-                summaryTable.setValueAt(row[0][5], 0, 5);
-                summaryTable.setValueAt(row[0][6], 0, 6);
-                summaryTable.setValueAt(row[0][7], 0, 7);
+                for (int k = 0; k < 8; k++) {
+                    summaryTable.setValueAt(row[0][k], 0, k);
+                }
             }
             allVehiclesEnrolledLabel.setVisible(true);
             allVehicleSummaryTable.setVisible(true);
@@ -631,8 +624,7 @@ public class Service_log extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(Service_log.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Service_log.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_searchVehicleButtonActionPerformed
 
@@ -646,7 +638,7 @@ public class Service_log extends javax.swing.JFrame {
 
     private void viewQuotationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewQuotationButtonActionPerformed
         // TODO add your handling code here:        
-        customerView forQuotation = new customerView();
+        CustomerView forQuotation = new CustomerView();
         forQuotation.setVisible(true);
     }//GEN-LAST:event_viewQuotationButtonActionPerformed
 
@@ -655,7 +647,7 @@ public class Service_log extends javax.swing.JFrame {
         // TODO add your handling code here:
         DeleteRecords d = new DeleteRecords();
         d.setVisible(true);
-        
+
     }//GEN-LAST:event_deleteBikeModelActionPerformed
 
     private void editQuotationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuotationButtonActionPerformed

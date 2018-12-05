@@ -38,7 +38,7 @@ CREATE TABLE `backup_bike_model` (
 
 LOCK TABLES `backup_bike_model` WRITE;
 /*!40000 ALTER TABLE `backup_bike_model` DISABLE KEYS */;
-INSERT INTO `backup_bike_model` VALUES ('1','1','1',1,'2018-11-24 19:45:45'),('1','12','1',1,'2018-11-24 19:45:48'),('1','3','3',3,'2018-11-24 19:46:24'),('1','34','3',3,'2018-11-24 19:46:27'),('1','344','3',3,'2018-11-24 19:46:31'),('KTM Duke','KA05JR0005','Orange',13000,'2018-11-24 19:12:50'),('KTM Duke','KA05JR0050','Orange',13000,'2018-11-24 19:17:26'),('Karizma ZMR','KA41EC7781','Black',35401,'2018-11-24 19:10:14'),('Karizma ZMR','KA41ED6154','Black',25842,'2018-11-24 19:07:22');
+INSERT INTO `backup_bike_model` VALUES ('Yamaha FZS','KA01ED9661','Blue',16001,'2018-11-26 10:02:09'),('Yamaha FZS','KA01ED9661','Blue',16001,'2018-11-26 10:05:15'),('honda activa','KA01EE0111','Red',1234,'2018-11-27 11:30:53'),('Chetak','KA05AU0018','Grey',65780,'2018-11-25 20:30:03'),('KTM Duke','KA05JR0005','Orange',13000,'2018-11-24 19:12:50'),('Karizma ZMR','KA41EC7781','Black',35401,'2018-11-24 19:10:14'),('Karizma ZMR','KA41ED6154','Black',25842,'2018-11-24 19:07:22'),('Karzima ZMR','KA41ED6154','Black',26101,'2018-11-30 11:02:18'),('Activa','KA41EG2705','Black',800,'2018-12-02 17:34:55');
 /*!40000 ALTER TABLE `backup_bike_model` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `backup_bike_service` (
 
 LOCK TABLES `backup_bike_service` WRITE;
 /*!40000 ALTER TABLE `backup_bike_service` DISABLE KEYS */;
-INSERT INTO `backup_bike_service` VALUES ('Chirag Jagadish','KTM Duke','KA05JR0005','Service','Breaks','2018-11-24 19:13:36'),('Chirag Jagadish','KTM Duke','KA05JR0050','Service','Breaks','2018-11-24 19:17:38'),('Chirag Jagadish','KTM Duke','KA05JR0050','Service','Breaks','2018-11-24 19:17:48'),('Chirag Jagadish','KTM Duke','KA05JR0050','Service','Breaks','2018-11-24 19:17:51'),('Chirag Jagadish','KTM Duke','KA05JR0050','Service','Breaks','2018-11-24 19:17:53'),('Vivekananda Sai','Karizma ZMR','KA41EC7781','Service','Mileage + Pickup','2018-11-24 19:10:40'),('Abhishek K','Karizma ZMR','KA41ED6154','Service','Mileage','2018-11-24 19:07:56');
+INSERT INTO `backup_bike_service` VALUES ('Ram Kumar','Yamaha FZS','KA01ED9661','Service','Battery','2018-11-26 10:02:33'),('Ram Kumar','Yamaha FZS','KA01ED9661','Service','Battery','2018-11-26 10:05:33'),('Yashashwini','Activa','KA01EE0111','Service','Mis','2018-11-27 11:31:18'),('Gaurav S Upadhyaya','Chetak','KA05AU0018','Cylinder Boring','Horn Sound','2018-11-25 20:32:16'),('Chirag Jagadish','KTM Duke','KA05JR0005','Service','Breaks','2018-11-24 19:13:36'),('Vivekananda Sai','Karizma ZMR','KA41EC7781','Service','Mileage + Pickup','2018-11-24 19:10:40'),('Abhishek K','Karizma ZMR','KA41ED6154','Service','Mileage','2018-11-24 19:07:56'),('Abhi','Karizma ZMR','KA41ED6154','Service','Mileage + Pickup','2018-11-30 11:03:46'),('Divya','Activa','KA41EG2705','Service','Nill','2018-12-02 17:36:41');
 /*!40000 ALTER TABLE `backup_bike_service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,7 +94,7 @@ CREATE TABLE `backup_bill_quotation` (
 
 LOCK TABLES `backup_bill_quotation` WRITE;
 /*!40000 ALTER TABLE `backup_bill_quotation` DISABLE KEYS */;
-INSERT INTO `backup_bill_quotation` VALUES ('KA41ED6154',40,'Additional screws','2018-11-24 19:09:02'),('KA05JR0005',200,'Labour Charge','2018-11-24 19:14:01'),('KA41EC7781',200,'Labour Charge','2018-11-24 19:11:43'),('KA41ED6154',200,'Labour Charge','2018-11-24 19:11:49'),('KA41EC7781',380,'Engine Oil','2018-11-24 19:11:20'),('KA41ED6154',380,'Engine Oil','2018-11-24 19:08:08'),('KA41ED6154',650,'Air Filter','2018-11-24 19:09:43'),('KA05JR0005',850,'Engine Oil','2018-11-24 19:14:14'),('KA41EC7781',3000,'Chain Spracket','2018-11-24 19:11:06'),('KA05JR0005',4250,'Break pads','2018-11-24 19:15:24');
+INSERT INTO `backup_bill_quotation` VALUES ('KA41ED6154',40,'Additional screws','2018-11-24 19:09:02'),('KA41ED6154',40,'additional screws','2018-11-26 10:50:48'),('KA01EE0111',200,'Seat Cover','2018-11-27 11:31:48'),('KA05JR0005',200,'Labour Charge','2018-11-24 19:14:01'),('KA41EC7781',200,'Labour Charge','2018-11-24 19:11:43'),('KA41ED6154',200,'Labour Charge','2018-11-24 19:11:49'),('KA41ED6154',200,'Labour Charge','2018-11-30 11:05:59'),('KA41ED6154',200,'Labour Charge','2018-11-30 11:31:18'),('KA41EG2705',200,'Polish','2018-12-02 17:37:26'),('KA05AU0018',250,'Engine Oil','2018-11-25 20:33:13'),('KA41ED6154',300,'Labour Charge','2018-11-30 11:09:38'),('KA41EG2705',300,'Engine Oil','2018-12-02 17:37:01'),('KA05AU0018',350,'Honk System','2018-11-25 20:34:18'),('KA41EC7781',380,'Engine Oil','2018-11-24 19:11:20'),('KA41ED6154',380,'Engine Oil','2018-11-24 19:08:08'),('KA41ED6154',380,'Engine Oil','2018-11-30 11:06:13'),('KA01EE0111',450,'Engine Oil','2018-11-27 11:31:38'),('KA41ED6154',650,'Air Filter','2018-11-24 19:09:43'),('KA41ED6154',729,'Air Filter','2018-11-26 10:23:19'),('KA41ED6154',729,'Air Filter','2018-11-30 11:05:08'),('KA05AU0018',750,'Labour Charge','2018-11-25 20:33:51'),('KA05AU0018',800,'Cylinder Bore','2018-11-25 20:33:00'),('KA05JR0005',850,'Engine Oil','2018-11-24 19:14:14'),('KA41EC7781',3000,'Chain Spracket','2018-11-24 19:11:06'),('KA05JR0005',4250,'Break pads','2018-11-24 19:15:24');
 /*!40000 ALTER TABLE `backup_bill_quotation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +120,7 @@ CREATE TABLE `bike_model` (
 
 LOCK TABLES `bike_model` WRITE;
 /*!40000 ALTER TABLE `bike_model` DISABLE KEYS */;
-INSERT INTO `bike_model` VALUES ('KTM Duke','KA05JR0005','Orange',13000),('Karizma ZMR','KA41EC7781','Black',35401),('Karizma ZMR','KA41ED6154','Black',25842);
+INSERT INTO `bike_model` VALUES ('Yamaha FZS','KA01ED9661','Blue',16001),('honda activa','KA01EE0111','Red',1234),('Chetak','KA05AU0018','Grey',65780),('KTM Duke','KA05JR0005','Orange',13000),('Karizma ZMR','KA41EC7781','Black',35401),('Karzima ZMR','KA41ED6154','Black',26101),('Activa','KA41EG2705','Black',800);
 /*!40000 ALTER TABLE `bike_model` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -165,7 +165,7 @@ CREATE TABLE `bill_quotation` (
 
 LOCK TABLES `bill_quotation` WRITE;
 /*!40000 ALTER TABLE `bill_quotation` DISABLE KEYS */;
-INSERT INTO `bill_quotation` VALUES ('KA05JR0005',200,'Labour Charge'),('KA05JR0005',850,'Engine Oil'),('KA05JR0005',4250,'Break pads'),('KA41EC7781',200,'Labour Charge'),('KA41EC7781',380,'Engine Oil'),('KA41EC7781',3000,'Chain Spracket'),('KA41ED6154',40,'Additional screws'),('KA41ED6154',200,'Labour Charge'),('KA41ED6154',380,'Engine Oil'),('KA41ED6154',650,'Air Filter');
+INSERT INTO `bill_quotation` VALUES ('KA01EE0111',200,'Seat Cover'),('KA01EE0111',450,'Engine Oil'),('KA05AU0018',250,'Engine Oil'),('KA05AU0018',350,'Honk System'),('KA05AU0018',750,'Labour Charge'),('KA05AU0018',800,'Cylinder Bore'),('KA05JR0005',200,'Labour Charge'),('KA05JR0005',850,'Engine Oil'),('KA05JR0005',4250,'Break pads'),('KA41EC7781',200,'Labour Charge'),('KA41EC7781',380,'Engine Oil'),('KA41EC7781',3000,'Chain Spracket'),('KA41ED6154',300,'Labour Charge'),('KA41ED6154',380,'Engine Oil'),('KA41ED6154',729,'Air Filter'),('KA41EG2705',200,'Polish'),('KA41EG2705',300,'Engine Oil');
 /*!40000 ALTER TABLE `bill_quotation` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -232,7 +232,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
-INSERT INTO `service` VALUES ('Chirag Jagadish','KTM Duke','KA05JR0005','Service','Breaks','2018-11-24 19:13:36'),('Vivekananda Sai','Karizma ZMR','KA41EC7781','Service','Mileage + Pickup','2018-11-24 19:10:40'),('Abhishek K','Karizma ZMR','KA41ED6154','Service','Mileage','2018-11-24 19:07:56');
+INSERT INTO `service` VALUES ('Ram Kumar','Yamaha FZS','KA01ED9661','Service','Battery','2018-11-26 10:05:33'),('Yashashwini','Activa','KA01EE0111','Service','Mis','2018-11-27 11:31:18'),('Gaurav S Upadhyaya','Chetak','KA05AU0018','Cylinder Boring','Horn Sound','2018-11-25 20:32:16'),('Chirag Jagadish','KTM Duke','KA05JR0005','Service','Breaks','2018-11-24 19:13:36'),('Vivekananda Sai','Karizma ZMR','KA41EC7781','Service','Mileage + Pickup','2018-11-24 19:10:40'),('Abhi','Karizma ZMR','KA41ED6154','Service','Mileage + Pickup','2018-11-30 11:03:46'),('Divya','Activa','KA41EG2705','Service','Nill','2018-12-02 17:36:41');
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -278,7 +278,7 @@ BEGIN
     s.customer_name, s.bike_name, bm.bike_color, bm.registration_no, s.time_stamp
     from service s, bike_model bm
     where s.registration_no = bm.registration_no
-	order by s.customer_name;
+	order by s.time_stamp;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -427,8 +427,7 @@ BEGIN
     bm.kilometers_run, s.repair_category, s.customer_complaints
     from service s, bike_model bm
     where s.registration_no = bm.registration_no
-    and s.registration_no = reg_no
-    and bm.registration_no = reg_no;   
+    and s.registration_no = reg_no;   
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -445,4 +444,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-24 20:26:41
+-- Dump completed on 2018-12-05 12:39:35

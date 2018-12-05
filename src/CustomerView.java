@@ -13,12 +13,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Abhi
  */
-public class customerView extends javax.swing.JFrame {
+public class CustomerView extends javax.swing.JFrame {
 
     /**
      * Creates new form customerView
      */
-    public customerView() {
+    public CustomerView() {
         initComponents();
     }
 
@@ -162,7 +162,7 @@ public class customerView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
- connection bill = new connection();
+ Connect bill = new Connect();
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         
         String rNo = registrationNoSearch.getText();
@@ -207,7 +207,7 @@ public class customerView extends javax.swing.JFrame {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(customerView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 //Adding data to billQuotationTable
@@ -231,7 +231,7 @@ public class customerView extends javax.swing.JFrame {
             }
             quotationTab.setNumRows(z);
         } catch (SQLException ex) {
-            Logger.getLogger(customerView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (found != 1) {
             quotationTab.setNumRows(0);
@@ -267,20 +267,21 @@ public class customerView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(customerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(customerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(customerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(customerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new customerView().setVisible(true);
+                new CustomerView().setVisible(true);
             }
         });
     }

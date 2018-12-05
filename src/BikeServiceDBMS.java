@@ -19,7 +19,7 @@ public class BikeServiceDBMS {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        login l = new login();
+        Login l = new Login();
         l.setVisible(true);
     }
     

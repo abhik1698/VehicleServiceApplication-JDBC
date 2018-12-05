@@ -14,7 +14,7 @@ import java.sql.SQLException;
  *
  * @author Abhi
  */
-public class connection {
+public class Connect {
 
     private static final String serverPath = "jdbc:mysql://localhost:3306/bike_service";
     private static final String username = "root";
@@ -22,7 +22,7 @@ public class connection {
 
     Connection c = null;
 
-    connection() {
+    Connect() {
         try {
             c = DriverManager.getConnection(serverPath, username, password);
             System.out.println("connected");

@@ -20,7 +20,7 @@ public final class DeleteRecords extends javax.swing.JFrame {
     /**
      * Creates new form deleteRecords
      */
-    connection call = new connection();
+    Connect call = new Connect();
     CallableStatement stmt;
 
     public DeleteRecords() {
